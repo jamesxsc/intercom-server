@@ -14,6 +14,12 @@ java {
     }
 }
 
+bootJar {
+    layered {
+
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
