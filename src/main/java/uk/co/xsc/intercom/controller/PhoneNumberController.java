@@ -21,7 +21,7 @@ public class PhoneNumberController {
         this.phoneNumberService = phoneNumberService;
     }
 
-    @GetMapping("/numbers")
+    @GetMapping("/list")
     public List<String> listPhoneNumbers(@RequestParam("country") String iso3166Country,
                                          @RequestParam(required = false) String query) {
         return phoneNumberService.listPhoneNumbers(iso3166Country, query);

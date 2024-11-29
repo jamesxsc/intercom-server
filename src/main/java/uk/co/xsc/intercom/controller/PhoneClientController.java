@@ -23,6 +23,7 @@ public class PhoneClientController {
     // TODO add from parameter once that is on the client
     @PostMapping("/makeCall")
     public String makeCall(@RequestParam("to") String to) {
+        System.out.println("PhoneClientController.makeCall");
         return phoneClientService.makeCall(to);
     }
 

@@ -1,5 +1,3 @@
-# TODO Deploy on-prem via IIS reverse proxy
-
 FROM openjdk:17-jdk-alpine AS builder
 ARG jarfile=build/libs/*.jar
 COPY ${jarfile} intercom.jar

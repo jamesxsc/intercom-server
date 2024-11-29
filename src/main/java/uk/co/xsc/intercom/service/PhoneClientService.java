@@ -39,7 +39,7 @@ public class PhoneClientService {
                 sid,
                 apiKey,
                 secret
-        ).identity("test-identity").grant(grant).build();
+        ).identity(identity).grant(grant).build();
         return token.toJwt();
     }
 
