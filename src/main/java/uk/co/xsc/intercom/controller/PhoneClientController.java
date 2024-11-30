@@ -1,6 +1,7 @@
 package uk.co.xsc.intercom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uk.co.xsc.intercom.service.PhoneClientService;
 
@@ -21,9 +22,10 @@ public class PhoneClientController {
     }
 
     // TODO add from parameter once that is on the client
+    // todo consider moving to another controller as this has no auth
     @PostMapping("/makeCall")
+    @PreAuthorize("permitAll()")
     public String makeCall(@RequestParam("to") String to) {
-        System.out.println("PhoneClientController.makeCall");
         return phoneClientService.makeCall(to);
     }
 

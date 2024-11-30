@@ -25,6 +25,7 @@ public class AuthenticationController {
         this.jwtUtil = jwtUtil;
     }
 
+    // TODO use dto and post
     @PostMapping("/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password) {
