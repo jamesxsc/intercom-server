@@ -24,7 +24,6 @@ public class PhoneClientController {
     // TODO add from parameter once that is on the client
     // todo consider moving to another controller as this has no auth
     @PostMapping("/makeCall")
-    @PreAuthorize("permitAll()")
     public String makeCall(@RequestParam("to") String to) {
         return phoneClientService.makeCall(to);
     }

@@ -40,7 +40,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/client/**").hasRole("USER")
+                                .requestMatchers("/client/makeCall").permitAll()
+                                .requestMatchers("/client/accessToken").hasRole("USER")
                                 .requestMatchers("/numbers/**").hasRole("USER")
                 )
                 .userDetailsService(userService)
