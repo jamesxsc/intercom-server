@@ -19,6 +19,7 @@ public class JWTUtil {
 
     public String generateToken(String username) {
         return JWT.create()
+                // TODO this should use id as technically someone could reuse an email and an old token would work
                 .withSubject(username)
                 .withIssuedAt(new Date())
                 .withIssuer("intercom")
