@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.co.xsc.intercom.JWTUtil;
+import uk.co.xsc.intercom.entity.dto.JWTTokenDto;
+import uk.co.xsc.intercom.entity.dto.LoginDto;
 
 @RestController
 @RequestMapping("auth")
@@ -25,16 +24,14 @@ public class AuthenticationController {
         this.jwtUtil = jwtUtil;
     }
 
-    // TODO use dto and post
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password) {
+    public JWTTokenDto login(@RequestBody LoginDto loginDto) {
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             authenticationManager.authenticate(token);
-            return jwtUtil.generateToken(username);
+            return new JWTTokenDto(jwtUtil.generateToken(loginDto.getUsername()));
         } catch (AuthenticationException e) {
-            // TODO: res error
+            // TODO: res error(s) thoroughout
             throw new RuntimeException("Invalid username or password");
         }
     }

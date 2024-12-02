@@ -31,6 +31,9 @@ public class User implements UserDetails {
     private List<String> roles;
 
     @Getter
+    // TODO look into DBRef not working
+
+    // TODO check cascade deletion/be careful where we delete
     private List<PhoneNumber> phoneNumbers;
 
     // Constructor for registration
