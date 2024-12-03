@@ -43,10 +43,11 @@ public class PhoneClientService {
         return token.toJwt();
     }
 
-    public String makeCall(String to) {
-        // TODO validate "to" phone number
+    public String makeCall(String to, String identity) {
+        // TODO validate "to" phone number - use @valid annotations?
         Number destination = new Number.Builder(to).build();
-        Dial dial = new Dial.Builder().callerId("442045380800").number(destination).build(); // this can be identity or number
+        // the caller id can be internal string identity or number
+        Dial dial = new Dial.Builder().callerId(identity).number(destination).build();
         VoiceResponse response = new VoiceResponse.Builder().dial(dial).build();
 
         return response.toXml();

@@ -1,10 +1,12 @@
 package uk.co.xsc.intercom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import uk.co.xsc.intercom.JWTUtil;
 import uk.co.xsc.intercom.entity.dto.JWTTokenDto;
 import uk.co.xsc.intercom.entity.dto.LoginDto;
@@ -31,8 +33,7 @@ public class AuthenticationController {
             authenticationManager.authenticate(token);
             return new JWTTokenDto(jwtUtil.generateToken(loginDto.getUsername()));
         } catch (AuthenticationException e) {
-            // TODO: res error(s) thoroughout
-            throw new RuntimeException("Invalid username or password");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid credentials provided");
         }
     }
 

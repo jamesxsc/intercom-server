@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers("/client/accessToken").hasRole("USER")
                                 .requestMatchers("/numbers/**").hasRole("USER")
                                 .requestMatchers("/user/**").hasRole("USER")
+                                .requestMatchers("/error").permitAll()
                 )
                 .userDetailsService(userService)
                 .exceptionHandling(exception ->

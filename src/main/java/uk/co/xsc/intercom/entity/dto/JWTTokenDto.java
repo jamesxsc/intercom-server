@@ -5,10 +5,10 @@ import lombok.Getter;
 public class JWTTokenDto {
 
     @Getter
-    private final String jwtToken;
+    private final String accessToken;
 
-    public JWTTokenDto(String jwtToken) {
-        this.jwtToken = jwtToken;
+    public JWTTokenDto(String accessToken) {
+        this.accessToken = accessToken;
     }
 
 }
