@@ -1,14 +1,9 @@
 package uk.co.xsc.intercom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uk.co.xsc.intercom.entity.dto.MakeCallDto;
 import uk.co.xsc.intercom.entity.dto.PhoneClientAccessTokenDto;
 import uk.co.xsc.intercom.service.PhoneClientService;
-
-import java.util.Collections;
-import java.util.Map;
 
 @RestController
 @RequestMapping("client")
@@ -26,11 +21,10 @@ public class PhoneClientController {
         return new PhoneClientAccessTokenDto(phoneClientService.getAccessToken(identity));
     }
 
-    // TODO add from parameter once that is on the client
     // todo consider moving to another controller as this endpoint has no auth
     @PostMapping("/makeCall")
-    public String makeCall(@RequestBody MakeCallDto dto) {
-        return phoneClientService.makeCall(dto.getDestination(), dto.getIdentity());
+    public String makeCall(@RequestParam("destination") String destination, @RequestParam("identity") String identity) {
+        return phoneClientService.makeCall(destination, identity);
     }
 
 }

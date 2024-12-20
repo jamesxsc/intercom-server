@@ -31,7 +31,6 @@ public class SecurityConfig {
         this.filter = filter;
     }
 
-    // TODO replace default error redirect - it is technically protected so means any error is a 401
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
