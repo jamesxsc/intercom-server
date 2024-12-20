@@ -41,6 +41,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/client/makeCall").permitAll()
+                                .requestMatchers("/client/incomingCall").permitAll()
                                 .requestMatchers("/client/accessToken").hasRole("USER")
                                 .requestMatchers("/numbers/**").hasRole("USER")
                                 .requestMatchers("/user/**").hasRole("USER")
