@@ -40,7 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing token in Bearer header");
             } else {
                 try {
-                    User user = (User) userService.loadUserByUsername(jwtUtil.validateTokenAndRetrieveSubject(token));
+                    User user = userService.loadUserById(jwtUtil.validateTokenAndRetrieveSubject(token));
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
 
                     if (SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -48,6 +48,7 @@ public class JWTFilter extends OncePerRequestFilter {
                     }
                 } catch (JWTVerificationException e) {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token in Bearer header");
+                    return;
                 }
             }
         }

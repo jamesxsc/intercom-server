@@ -68,6 +68,8 @@ public class PhoneClientService {
     }
 
     public String handleIncomingCall(String to) throws NumberNotFoundException {
+        // TODO connect on press key https://www.twilio.com/docs/voice/twiml/gather#attributes
+
         to = to.replace("+", "");
 
         // Twilio give us a number, we identify the owner and route the call to their client and registered device(s)

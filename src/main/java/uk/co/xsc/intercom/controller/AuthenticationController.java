@@ -8,8 +8,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import uk.co.xsc.intercom.JWTUtil;
+import uk.co.xsc.intercom.entity.User;
 import uk.co.xsc.intercom.entity.dto.JWTTokenDto;
 import uk.co.xsc.intercom.entity.dto.LoginDto;
+import uk.co.xsc.intercom.service.UserService;
 
 @RestController
 @RequestMapping("auth")
@@ -19,11 +21,13 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+    private final UserService userService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -31,7 +35,8 @@ public class AuthenticationController {
         try {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             authenticationManager.authenticate(token);
-            return new JWTTokenDto(jwtUtil.generateToken(loginDto.getUsername()));
+            User user = (User) userService.loadUserByUsername(loginDto.getUsername());
+            return new JWTTokenDto(jwtUtil.generateToken(user.getId()));
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid credentials provided");
         }

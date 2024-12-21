@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import uk.co.xsc.intercom.exception.NumberNotFoundException;
 
 import java.util.Date;
 
@@ -17,21 +18,24 @@ public class JWTUtil {
         this.secret = secret;
     }
 
-    public String generateToken(String username) {
+    public String generateToken(Long id) {
         return JWT.create()
-                // TODO this should use id as technically someone could reuse an email and an old token would work
-                .withSubject(username)
+                .withSubject(String.valueOf(id))
                 .withIssuedAt(new Date())
                 .withIssuer("intercom")
                 .sign(Algorithm.HMAC256(secret));
     }
 
-    public String validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
-        return JWT.require(Algorithm.HMAC256(secret))
-                .withIssuer("intercom")
-                .build()
-                .verify(token)
-                .getSubject();
+    public Long validateTokenAndRetrieveSubject(String token) throws JWTVerificationException {
+        try {
+            return Long.parseLong(JWT.require(Algorithm.HMAC256(secret))
+                    .withIssuer("intercom")
+                    .build()
+                    .verify(token)
+                    .getSubject());
+        } catch (NumberFormatException e) {
+            throw new JWTVerificationException("Invalid token subject");
+        }
     }
 
 }
